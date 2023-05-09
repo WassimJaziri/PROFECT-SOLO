@@ -1,31 +1,42 @@
-console.log("a")
-var todoInput=document.querySelector(".todo-input"); 
-var todoButton=document.querySelector(".todo-button");
-var todoList=document.querySelector(".todo-List");
-var input=document.getElementById("input")
 
-document.getElementById("b1").addEventListener("click", function(event){event.preventDefault()}); //attache une fonction à appeler chaque fois que l'évènement spécifié est envoyé à la cible.
+//////////
+function selectNumber() {  
+     var array = document.querySelectorAll("number");  
+     for(var i = 0; i < array.length; i++) {  
+       $(array[i]).html(i+1 + ") ");  
+     }  
+ }  
 
-$(".todo-button").click(addTodo);
-$(".todo-List").click(deleteAndCheck);
+ selectNumber();  
+ $("ul").on("click", "li", function () {  
+   $(this).toggleClass("completed");  
+ });  
 
+ $("ul").on('click', "span", function (event) {  
+   event.stopPropagation();  
+   $(this).closest("li").fadeOut(500,function() {  
+    $(this).remove();  
+     selectNumber()
+   });  
+ });  
 
+ $(".removeall").on('click', function (event) {  
+     $("li").fadeOut(500, function() {  
+       $(this).remove()
+     });  
+ });  
 
-function addTodo(){
-    var para=document.createElement("li")
-    var node= document.createTextNode(input.value);
-    para.appendChild(node);
-    var  element = document.getElementById("list");
-   element.appendChild(para);
+ $("input[type='text']").keypress(function(event) {  
+   if(event.which === 13) {  
+     var todoText = $(this).val();  
+     if( $(this).val() !== "") {  
+     $("ul").append("<li> <span> <i class='fa fa-trash'> </i> </span>" + "<number></number>" + todoText + "</li>");  
+       }  
+     selectNumber();  
+     $(this).val("");  
+   }  
+ }); 
 
-    // eviter le refraichement 
-// var para = document.createElement("div");
-//     para.classList.add(" todo ") 
-// var input=document.createElement("li")
-//     input.innerText=todoInput.value
-//     para.classList.add("todo-item"); // ajouter à la class Liste 
-//     element.appendChild(para); // ajouter noeud 
-}
-
-function deleteAndCheck(){}
-
+ $(".add").click(function() {  
+   $("input[type='text']").fadeToggle(200);  
+ });  
